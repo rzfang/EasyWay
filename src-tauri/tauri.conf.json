@@ -12,6 +12,9 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "dialog": {
+        "message": true
+      },
       "fs": {
         "all": true,
         "scope": [ "$HOME/.config/*" ]
