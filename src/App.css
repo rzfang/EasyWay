@@ -1,8 +1,51 @@
 :root {
+  --color-gray-8: #808080;
+  --color-gray-c: #c0c0c0;
 }
-
 
 @media (prefers-color-scheme: dark) {
   :root {
+  }
+}
+
+body {
+  margin: 0;
+}
+
+fieldset {
+  border-style: solid;
+  border-color: var(--color-gray-8);
+  color: var(--color-gray-8);
+}
+
+fieldset {
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+input[type=radio] {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.App {
+  display: grid;
+  grid-template-rows: 1fr 50px;
+  box-sizing: border-box;
+  padding: 5px;
+  height: 100vh;
+
+  >main {
+    >* {
+      margin-bottom: 5px;
+    }
+  }
+
+  >footer {
+    text-align: center;
+    align-content: center;
   }
 }
