@@ -1,5 +1,3 @@
-// import { message } from '@tauri-apps/api/dialog';
-
 interface Props_I {
   items: {
     [string]: string;
@@ -91,7 +89,11 @@ function AutoStart ({ items, onUpdate }: Props_I) {
   };
 
   const commandAdd = event => {
-    itemList.push({ command: 'echo "a_new_command."', name: Math.floor(Date.now() / 1000).toString(), wait: 0 });
+    itemList.push({
+      command: 'echo "a_new_command."',
+      name: 'whatever_' + Math.floor(Date.now() / 1000).toString(),
+      wait: 0,
+    });
 
     updateSource(event);
   };

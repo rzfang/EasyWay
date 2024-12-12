@@ -1,47 +1,132 @@
 import "./App.css";
 
-import { readTextFile, BaseDirectory } from '@tauri-apps/api/fs';
-import { stringify , parse } from 'ini';
+import { BaseDirectory, exists, readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { useEffect, useState } from "react";
+import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
 import NumLock from './NumLock';
 
 function App () {
-  const [ wayfireConfig, setWayfireConfig ] = useState({});
+  const [ autostarts, setAutostarts ] = useState([]);
+  const [ rcConfig, setRcConfig ] = useState({});
+  const [ timestamp, setTimestamp ] = useState(Date.now());
 
   useEffect(() => {
-    readTextFile('.config/wayfire.ini', { dir: BaseDirectory.Home })
-      .catch(error => console.log(error))
-      .then((text) => {
-        if (!text) {
-          return alert('weird wayfire.ini ?');
+    exists('.config/labwc/rc.xml', { baseDir: BaseDirectory.Home })
+      .catch(error => console.error(error) && Promise.reject(error))
+      .then(existing => {
+        if (!existing) {
+          setRcConfig({});
+
+          return;
         }
 
-        setWayfireConfig(parse(text));
-      });
-  }, []);
+        readTextFile('.config/labwc/rc.xml', { baseDir: BaseDirectory.Home })
+          .catch(error => console.error(error) && Promise.reject(error))
+          .then(text => {
+            if (!text) {
+              return alert('weird rc.xml?');
+            }
 
-  console.log('--- 001');
-  console.log(wayfireConfig);
+            const parser = new XMLParser({ ignoreAttributes : false });
+
+            const rootConfig = parser.parse(text);
+
+            const rcConfig = rootConfig?.openbox_config || rootConfig?.labwc_config;
+
+            if (!rcConfig) {
+              return alert('weird rc.xml?');
+            }
+
+            setRcConfig(rcConfig);
+          });
+      });
+
+    // readTextFile('.config/labwc/autostart', { dir: BaseDirectory.Home })
+    //   .catch(error => console.error(error))
+    //   .then(text => {
+    //     if (!text) {
+    //       return alert('weird autoStart file?');
+    //     }
+
+    //     console.log(text.split('&\n'));
+    //   });
+  }, [ timestamp ]);
 
   const setNumLockOnOff = (event, onOff) => {
-    if (!wayfireConfig.input) {
-      wayfireConfig.input = {};
+    if (rcConfig.keyboard) {
+      rcConfig.keyboard.numlock = onOff;
+    } else {
+      rcConfig.keyboard = { numlock: onOff };
     }
-
-    wayfireConfig.input.kb_numlock_default_state = onOff;
   };
 
   const updateAutoStartItems = (event, items) => {
-    if (!wayfireConfig.autostart) {
-      wayfireConfig.autostart = {};
+    if (!rcConfig.autostart) {
+      rcConfig.autostart = {};
     }
 
-    wayfireConfig.autostart = items;
+    rcConfig.autostart = items;
 
-    setWayfireConfig({ ...wayfireConfig });
+    setRcConfig({ ...rcConfig });
+  };
+
+  const reload = () => {
+    setTimestamp(Date.now());
+  };
+
+  const save = () => {
+    const newKeybind = Array
+      .from(document.querySelectorAll('.App .KeyBind tbody tr') || [])
+      .map(tr => {
+        const [ key, command ] = Array.from(tr.querySelectorAll('input[type=text]') || []);
+
+        return {
+          '@_key': key.placeholder,
+          action: { '@_name': 'Execute', '@_command': command.value }, // @_name can not be after @_command, or labwc can not understand.
+        };
+      });
+
+    const commands = newKeybind.map(({ action }) => action['@_command']);
+    const keys = newKeybind.map(oneBind => oneBind['@_key']);
+    const hints = [];
+
+    if (keys.find(key => key.indexOf('-') < 0)) {
+      hints.push('at least  one bind has no modifier key.');
+    }
+
+    if (!!keys.find((key, index, keys) => keys.indexOf(key) !== index)) {
+      hints.push('key duplicated between binds.');
+    }
+
+    if (commands.indexOf('') > -1) {
+      hints.push('at least one command not set yet.');
+    }
+
+    if (!!commands.find((command, index, commands) => commands.indexOf(command) !== index)) {
+      hints.push('command duplicated between binds.');
+    }
+
+    if (hints.length > 0) {
+      return alert('Oops, something wrong, please check following found.\n- ' + hints.join('\n- '));
+    }
+
+    if (rcConfig.keyboard) {
+      rcConfig.keyboard.keybind = newKeybind;
+    } else {
+      rcConfig.keyboard = { keybind: newKeybind };
+    }
+
+    const builder = new XMLBuilder({ format: true, ignoreAttributes: false });
+
+    const xmlContent = '<?xml version="1.0"?>\n' +
+      builder.build({ labwc_config: rcConfig }).replace(/><\/action>/g, ' />');
+
+    writeTextFile('.config/labwc/rc.xml', xmlContent, { dir: BaseDirectory.Home })
+      .catch(error => console.error(error))
+      .then(error => { alert(error || 'config saved.'); });
   };
 
   return (
@@ -50,17 +135,24 @@ function App () {
 
         <fieldset>
           <legend>NumLock on/off after boot</legend>
-          <NumLock defaultOnOff={wayfireConfig?.input?.kb_numlock_default_state} onChange={setNumLockOnOff} />
+          <NumLock defaultOnOff={rcConfig?.keyboard?.numlock === 'on'} onChange={setNumLockOnOff} />
         </fieldset>
 
-        <AutoStart items={wayfireConfig?.autostart || []} onUpdate={updateAutoStartItems} />
+        <fieldset>
+          <legend>Command & Keyboard binding</legend>
+          <KeyBind keybind={
+            rcConfig?.keyboard?.keybind &&
+            (rcConfig.keyboard.keybind.length ? rcConfig.keyboard.keybind : [ rcConfig.keyboard.keybind ]) ||
+            []
+          } />
+        </fieldset>
 
-        <KeyBind items={wayfireConfig?.command || {}} />
+        <AutoStart items={rcConfig?.autostart || []} onUpdate={updateAutoStartItems} />
 
       </main>
       <footer>
-        <button>Cancel</button>
-        <button>Save</button>
+        <button onClick={reload}>Reload</button>
+        <button onClick={save}>Save</button>
       </footer>
     </div>
   );

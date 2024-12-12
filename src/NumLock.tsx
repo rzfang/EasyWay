@@ -7,11 +7,11 @@ function NumLock ({ defaultOnOff = false, onChange = () => {} }) {
     <div className="NumLock">
       <label>
         On
-        <input name="on-ff" defaultChecked={defaultOnOff} onChange={change} type="radio" value={true} />
+        <input name="on-ff" defaultChecked={defaultOnOff} onChange={change} type="radio" value="on" />
       </label>
       <label>
         Off
-        <input name="on-ff" defaultChecked={!defaultOnOff} onChange={change} type="radio" value={false} />
+        <input name="on-ff" defaultChecked={!defaultOnOff} onChange={change} type="radio" value="off" />
       </label>
     </div>
   );

@@ -48,4 +48,24 @@ input[type=radio] {
     text-align: center;
     align-content: center;
   }
+
+  .KeyBind {
+    table {
+      display: inline-table;
+      margin-right: 10px;
+      border-collapse: collapse;
+      border-color: var(--color-gray-c);
+      vertical-align: bottom;
+
+      td {
+        border: 1px solid;
+        padding: 10px;
+
+        label {
+          display: inline-block;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
 }
