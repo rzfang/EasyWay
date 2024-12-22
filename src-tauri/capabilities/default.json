@@ -8,14 +8,23 @@
   "permissions": [
     "core:default",
     "fs:allow-read-file",
-    "fs:allow-write-file",
+    "fs:allow-write-text-file",
     "fs:default",
-    "shell:allow-execute",
     "shell:default",
     {
       "identifier": "fs:scope",
       "allow": [
         "$HOME/.config/labwc/*"
+      ]
+    },
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "labwc-config-reload",
+          "cmd": "labwc",
+          "args": [ "-r" ]
+        }
       ]
     }
   ]

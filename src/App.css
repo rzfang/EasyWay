@@ -12,17 +12,6 @@ body {
   margin: 0;
 }
 
-fieldset {
-  border-style: solid;
-  border-color: var(--color-gray-8);
-  color: var(--color-gray-8);
-}
-
-fieldset {
-  border-width: 1px;
-  border-radius: 5px;
-}
-
 input[type=radio] {
   cursor: pointer;
 
@@ -33,7 +22,7 @@ input[type=radio] {
 
 .App {
   display: grid;
-  grid-template-rows: 1fr 50px;
+  grid-template-rows: 50px 1fr 50px;
   box-sizing: border-box;
   padding: 5px;
   height: 100vh;
@@ -67,5 +56,9 @@ input[type=radio] {
         }
       }
     }
+  }
+
+  .Autostart {
+    background-color: red;
   }
 }
