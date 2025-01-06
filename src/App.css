@@ -1,6 +1,7 @@
 :root {
   --color-gray-8: #808080;
   --color-gray-c: #c0c0c0;
+  --color-gray-f: #f0f0f0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,9 +21,51 @@ input[type=radio] {
   }
 }
 
+input[type=text] {
+  border: 1px solid var(--color-gray-c);
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 2px 5px;
+
+  &:disabled {
+    background-color: var(--color-gray-f);
+    cursor: not-allowed;
+  }
+}
+
+table {
+  border: 1px solid var(--color-gray-c);
+  border-spacing: 0;
+  border-radius: 5px;
+
+  tr {
+    >td,
+    >th {
+      border-color: var(--color-gray-c);
+      border-style: solid;
+      border-width: 0 1px 1px 0;
+
+      &:last-child {
+        border-width: 0 0 1px 0;
+      }
+    }
+
+  }
+
+  tr:last-child {
+    >td {
+      border-width: 0 1px 0 0;
+
+      &:last-child {
+        border-width: 0;
+      }
+    }
+  }
+}
+
 .App {
   display: grid;
-  grid-template-rows: 50px 1fr 50px;
+  grid-template-rows: 50px 1fr;
   box-sizing: border-box;
   padding: 5px;
   height: 100vh;
@@ -32,33 +75,26 @@ input[type=radio] {
       margin-bottom: 5px;
     }
   }
+}
 
-  >footer {
-    text-align: center;
-    align-content: center;
-  }
+.KeyBind {
+  table td {
+    padding: 10px;
 
-  .KeyBind {
-    table {
-      display: inline-table;
-      margin-right: 10px;
-      border-collapse: collapse;
-      border-color: var(--color-gray-c);
-      vertical-align: bottom;
-
-      td {
-        border: 1px solid;
-        padding: 10px;
-
-        label {
-          display: inline-block;
-          margin-right: 5px;
-        }
-      }
+    label {
+      display: inline-block;
+      margin-right: 5px;
     }
   }
+}
 
-  .Autostart {
-    background-color: red;
+.AutoStart {
+  table td {
+    padding: 10px;
+
+    &:first-child>input[type=text] {
+      min-width: 300px;
+      width: 70vw;
+    }
   }
 }
