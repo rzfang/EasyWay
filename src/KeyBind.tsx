@@ -95,6 +95,36 @@ function KeyBind (): ReactNode {
   const [ timeStamp, setTimeStamp ] = useState<number>(Date.now());
   const addBind = useRcStore(state => state.addBind);
   const keybinds = useRcStore(state => state.config.keyboard.keybind);
+  const saveRc = useRcStore(state => state.save);
+
+  const save = () => {
+    const hints = [];
+
+    if (keybinds.some(keybind => keybind['@_key'].indexOf('-') < 1)) {
+      hints.push('at least one bind has no modifier key.');
+    }
+
+    if (keybinds.map(keybind => keybind['@_key']).some((key, index, keys) => keys.indexOf(key) !== index)) {
+      hints.push('key duplicated between binds.');
+    }
+
+    if (keybinds.some(({ action }) => action['@_command'] === '')) {
+      hints.push('at least one command not set yet.');
+    }
+
+    if (keybinds
+      .map(({ action }) => action['@_command'])
+      .some((command, index, commands) => commands.indexOf(command) !== index)
+    ) {
+      hints.push('command duplicated between binds.');
+    }
+
+    if (hints.length > 0) {
+      return alert('Oops, something wrong, please check following found.\n- ' + hints.join('\n- '));
+    }
+
+    saveRc();
+  };
 
   return (
     <div className="KeyBind">
@@ -103,7 +133,7 @@ function KeyBind (): ReactNode {
           <tr>
             <th>Key</th>
             <th>Command</th>
-            <th>Delete</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -111,6 +141,7 @@ function KeyBind (): ReactNode {
         </tbody>
       </table>
       <button onClick={addBind}>Add</button>
+      <button onClick={save}>Save</button>
     </div>
   );
 }

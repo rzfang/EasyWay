@@ -39,6 +39,20 @@ async function init () {
     return defaultConfig;
   }
 
+  if (!rcConfig.keyboard) {
+    rcConfig.keyboard = defaultConfig.keyboard;
+  }
+
+  if (!rcConfig.keyboard.keybind) {
+    rcConfig.keyboard.keybind = defaultConfig.keyboard.keybind;
+  } else if (!Array.isArray(rcConfig.keyboard.keybind)) {
+    rcConfig.keyboard.keybind = [ rcConfig.keyboard.keybind ];
+  }
+
+  if (!rcConfig.keyboard.numlock) {
+    rcConfig.keyboard.numlock = defaultConfig.keyboard.numlock;
+  }
+
   return rcConfig;
 }
 
@@ -61,7 +75,7 @@ const config = await init();
 //   };
 // });
 
-const useStore = create()(immer(set => {
+const useStore = create()(immer((set, get) => {
   return {
     config,
     toggleNumLock: () => set(state => {
@@ -85,8 +99,9 @@ const useStore = create()(immer(set => {
     updateBindCommand: (index, command) => set(state => {
       state.config.keyboard.keybind[index].action['@_command'] = command;
     }),
-    save: config => {
+    save: () => {
       const builder = new XMLBuilder({ format: true, ignoreAttributes: false });
+      const { config } = get();
 
       const xmlContent = '<?xml version="1.0"?>\n' +
         builder.build({ labwc_config: config }).replace(/><\/action>/g, ' />');
