@@ -2,17 +2,31 @@ import { ReactNode } from 'react';
 
 import useAsStore from './stores/autostart.store.ts';
 
-function AutoStart (): ReactNode {
-  const addOne = useAsStore(state => state.addOne);
+function debounce (action: () => void, delayedMillisecond: number): () => void {
+  let timer = -1;
+
+  return (...params) => {
+    if (timer !== -1) {
+      clearTimeout(timer);
+
+      timer = -1;
+    }
+
+    timer = setTimeout(() => action(...params), delayedMillisecond);
+  };
+}
+
+interface CommandProps_I {
+  index: number;
+}
+
+function Command ({ index }: CommandProps_I): ReactNode {
+  const command = useAsStore(state => state.items[index].command);
   const deleteOne = useAsStore(state => state.deleteOne);
-  const items = useAsStore(state => state.items);
   const updateOne = useAsStore(state => state.updateOne);
 
   const commandUpdate = event => {
-    const command = event.currentTarget.value.trim();
-    const rootNode = event.currentTarget.parentNode.parentNode;
-
-    const index = parseInt(rootNode.dataset.index, 10);
+    const command = event.target.value.trim();
 
     if (!command) {
       return alert('no command!');
@@ -21,38 +35,57 @@ function AutoStart (): ReactNode {
     updateOne(index, command);
   };
 
-  const commandDelete = event => {
-    const rootNode = event.currentTarget.parentElement.parentElement;
-
-    const index = parseInt(rootNode.dataset.index, 10);
-
+  const commandDelete = () => {
     deleteOne(index);
   };
+
+  return (
+    <tr className="Command">
+      <td><input type="text" defaultValue={command} onChange={commandUpdate} /></td>
+      <td><button onClick={commandDelete}>Delete</button></td>
+    </tr>
+  );
+}
+
+function AutoStart (): ReactNode {
+  const addOne = useAsStore(state => state.addOne);
+  const asSave = useAsStore(state => state.save);
+  const items = useAsStore(state => state.items);
 
   const commandAdd = event => {
     addOne();
   };
 
+  const save = () => {
+    const hints = [];
+
+    if (items.some(({ command }) => !command)) {
+      hints.push('one or many command are empty.');
+    }
+
+    if (hints.length > 0) {
+      return alert('Oops, something wrong, please check following found.\n- ' + hints.join('\n- '));
+    }
+
+    asSave();
+  };
+
   return (
-    <table className="AutoStart">
-      <thead>
-        <tr>
-          <th>Command</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((item, index) => (
-          <tr key={`${item}-${index}`} data-index={index}>
-            <td><input type="text" defaultValue={item} onChange={commandUpdate} /></td>
-            <td><button onClick={commandDelete}>Delete</button></td>
+    <div className="AutoStart">
+      <table>
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th></th>
           </tr>
-        ))}
-        <tr>
-          <td colSpan="3"><button onClick={commandAdd}>New command</button></td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {items.map(({ id }, index) => (<Command key={id} index={index} />))}
+        </tbody>
+      </table>
+      <button onClick={commandAdd}>New command</button>
+      <button onClick={save}>Save</button>
+    </div>
   );
 }
 
