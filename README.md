@@ -1,7 +1,13 @@
-# Tauri + React + Typescript
+# Easy Way
+a Raspberry Pi GUI app to help editing configs. For life easier.
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+## This project uses
+- HTML, Js, CSS
+- [React](https://react.dev/)
+- [Tauri V2](https://v2.tauri.app/)
+- [Sass](https://sass-lang.com/)
+- [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Covered Config files
+- $HOME/.config/labwc/autostart
+- $HOME/.config/labwc/rc.xml
