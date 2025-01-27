@@ -1,20 +1,6 @@
-import { ReactNode } from 'react';
+import { ReactNode, SyntheticEvent } from 'react';
 
 import useAsStore from './stores/autostart.store.ts';
-
-function debounce (action: () => void, delayedMillisecond: number): () => void {
-  let timer = -1;
-
-  return (...params) => {
-    if (timer !== -1) {
-      clearTimeout(timer);
-
-      timer = -1;
-    }
-
-    timer = setTimeout(() => action(...params), delayedMillisecond);
-  };
-}
 
 interface CommandProps_I {
   index: number;
@@ -25,8 +11,8 @@ function Command ({ index }: CommandProps_I): ReactNode {
   const deleteOne = useAsStore(state => state.deleteOne);
   const updateOne = useAsStore(state => state.updateOne);
 
-  const commandUpdate = event => {
-    const command = event.target.value.trim();
+  const commandUpdate = (event: SyntheticEvent<HTMLInputElement>) => {
+    const command = event.currentTarget.value.trim();
 
     if (!command) {
       return alert('no command!');
@@ -52,7 +38,7 @@ function AutoStart (): ReactNode {
   const asSave = useAsStore(state => state.save);
   const items = useAsStore(state => state.items);
 
-  const commandAdd = event => {
+  const commandAdd = () => {
     addOne();
   };
 

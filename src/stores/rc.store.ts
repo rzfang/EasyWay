@@ -2,7 +2,7 @@ import { BaseDirectory, exists, readTextFile, writeTextFile } from '@tauri-apps/
 import { Command } from '@tauri-apps/plugin-shell'
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
+import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 
 async function init () {
   const existing = await exists('.config/labwc/rc.xml', { baseDir: BaseDirectory.Home });
@@ -75,7 +75,28 @@ const config = await init();
 //   };
 // });
 
-const useStore = create()(immer((set, get) => {
+interface Store_I {
+  addBind: () => void;
+  config: {
+    keyboard: {
+      keybind: {
+        '@_key': string;
+        action: {
+          '@_command': string;
+          '@_name': string;
+        };
+      }[];
+      numlock: 'on' | 'off';
+    };
+  };
+  deleteBind: (index: number) => void;
+  save: () => void;
+  toggleNumLock: () => void;
+  updateBindCommand: (index: number, command: string) => void;
+  updateBindKey: (index: number, bind: string) => void;
+}
+
+const useStore = create<Store_I>()(immer((set, get) => {
   return {
     config,
     toggleNumLock: () => set(state => {
@@ -110,7 +131,7 @@ const useStore = create()(immer((set, get) => {
         .then(() => {
           const cmd = Command.create('labwc-config-reload', [ '-r' ]);
 
-          cmd.on('close', data => alert('Config updated.'));
+          cmd.on('close', () => alert('Config updated.'));
           cmd.on('error', error => console.error(error));
           cmd.stdout.on('data', line => console.log(`command stdout: "${line}"`));
           cmd.stderr.on('data', line => console.log(`command stderr: "${line}"`));

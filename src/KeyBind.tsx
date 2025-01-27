@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { KeyboardEvent, ReactNode, SyntheticEvent } from 'react';
 
 import useRcStore from './stores/rc.store.ts';
 
@@ -24,7 +24,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
   const key = item['@_key'].split('-').find(key => (key !== '' && !modifierKeyMap.includes(key)));
   const modifiers = item['@_key'].split('-').filter(key => modifierKeyMap.includes(key));
 
-  const changeModifiers = event => {
+  const changeModifiers = (event: SyntheticEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     const modifier = event.currentTarget.value;
 
@@ -38,7 +38,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
     updateBindKey(index, modifiers.join('-') + '-' + key);
   };
 
-  const changeKey = event => {
+  const changeKey = (event: KeyboardEvent<HTMLInputElement>) => {
     let key = event.key;
 
     if (key === 'Enter') {
@@ -52,7 +52,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
     updateBindKey(index, modifiers.join('-') + '-' + key);
   };
 
-  const changeCommand = event => {
+  const changeCommand = (event: SyntheticEvent<HTMLInputElement>) => {
     updateBindCommand(index, event.currentTarget.value);
   };
 
@@ -92,7 +92,6 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
 }
 
 function KeyBind (): ReactNode {
-  const [ timeStamp, setTimeStamp ] = useState<number>(Date.now());
   const addBind = useRcStore(state => state.addBind);
   const keybinds = useRcStore(state => state.config.keyboard.keybind);
   const saveRc = useRcStore(state => state.save);

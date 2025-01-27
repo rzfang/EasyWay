@@ -33,25 +33,42 @@ async function init () {
 
 const config = await init();
 
-const useStore = create()(immer((set, get) => {
+interface Launcher_I {
+  app: string;
+  id: number;
+}
+
+interface Store_I {
+  addLauncher: () => void;
+  changeLaucherOrder: (index: number, order: number) => void;
+  launchers: Launcher_I[];
+  removeLauncher: (index: number) => void;
+  saveLaunchers: () => void;
+  updateLauncher: (index: number, value: string) => void;
+  config: {
+    [key: string]: string;
+  };
+}
+
+const useStore = create<Store_I>()(immer((set, get) => {
   const timeStamp = Date.now();
 
   const launchers = Object
     .entries(config)
-    .filter(([ key, value ]) => key.indexOf('launcher_') === 0)
+    .filter(([ key ]) => key.indexOf('launcher_') === 0)
     .sort(([ keyA ], [ keyB ]) => keyB > keyA ? -1 : 0)
-    .map(([ key, value ], index) => {
+    .map(([ , value ], index) => {
       return {
         app: value,
         id: timeStamp + index,
-      };
+      } as Launcher_I;
     });
 
   return {
     config,
     launchers,
     addLauncher: () => set(state => {
-      state.launchers.push({ app: '', id: Date.now() });
+      state.launchers.push({ app: '', id: Date.now() } as Launcher_I);
     }),
     /**
      * @order: 1 | -1.
@@ -81,7 +98,7 @@ const useStore = create()(immer((set, get) => {
 
             return whole;
           },
-          {}
+          {} as { [key: string]: string; }
         );
 
       launchers.forEach(({ app }, index) => {

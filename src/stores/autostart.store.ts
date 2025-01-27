@@ -7,9 +7,9 @@ interface Command_I {
   id: number;
 }
 
-async function init (): Command_I[] {
+async function init (): Promise<Command_I[]> {
   const existing = await exists('.config/labwc/autostart', { baseDir: BaseDirectory.Home });
-  const defaultConfig = [];
+  const defaultConfig: Command_I[] = [];
 
   if (!existing) {
     console.log('autostart not existant!');
@@ -36,7 +36,15 @@ async function init (): Command_I[] {
 
 const items = await init();
 
-const useStore = create()(immer((set, get) => {
+interface Store_I {
+  addOne: () => void;
+  deleteOne: (index: number) => void;
+  items: Command_I[];
+  save: () => void;
+  updateOne: (index: number, command: string) => void;
+};
+
+const useStore = create<Store_I>()(immer((set, get) => {
   return {
     items,
     addOne: () => set(state => {

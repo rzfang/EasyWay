@@ -1,37 +1,49 @@
-import { ReactNode } from 'react';
+import { ReactNode, SyntheticEvent } from 'react';
 
-import useGuiAppsStore from './stores/gui-apps.store.ts';
+// import useGuiAppsStore from './stores/gui-apps.store.ts';
 import useWfPanelPiStore from './stores/wf-panel-pi.store.ts';
 
 function Launcher (): ReactNode {
   const addLauncher = useWfPanelPiStore(state => state.addLauncher);
-  const apps = useGuiAppsStore(state => state.apps);
+  // const apps = useGuiAppsStore(state => state.apps);
   const changeLaucherOrder = useWfPanelPiStore(state => state.changeLaucherOrder);
   const launchers = useWfPanelPiStore(state => state.launchers);
   const removeLauncher = useWfPanelPiStore(state => state.removeLauncher);
   const saveLaunchers = useWfPanelPiStore(state => state.saveLaunchers);
   const updateLauncher = useWfPanelPiStore(state => state.updateLauncher);
 
-  const update = event => {
-    const index = parseInt(event.currentTarget.parentElement.parentElement.dataset.index, 10);
+  const update = (event: SyntheticEvent<HTMLInputElement>) => {
+    const index = event.currentTarget.parentElement?.parentElement?.dataset.index;
 
-    updateLauncher(index, event.currentTarget.value);
+    if (!index) {
+      return;
+    }
+
+    updateLauncher(parseInt(index, 10), event.currentTarget.value);
   };
 
-  const remove = event => {
-    const index = parseInt(event.currentTarget.parentElement.parentElement.dataset.index, 10);
+  const remove = (event: SyntheticEvent<HTMLButtonElement>) => {
+    const index = event.currentTarget.parentElement?.parentElement?.dataset.index;
 
-    removeLauncher(index);
+    if (!index) {
+      return;
+    }
+
+    removeLauncher(parseInt(index, 10));
   };
 
-  const changeOrder = event => {
-    const index = parseInt(event.currentTarget.parentElement.parentElement.dataset.index, 10);
-    const order = parseInt(event.currentTarget.value, 10);
+  const changeOrder = (event: SyntheticEvent<HTMLButtonElement>) => {
+    const index = event.currentTarget.parentElement?.parentElement?.dataset.index;
+    const order = event.currentTarget.value;
 
-    changeLaucherOrder(index, order);
+    if (!index) {
+      return;
+    }
+
+    changeLaucherOrder(parseInt(index, 10), parseInt(order, 10));
   };
 
-  const save = event => {
+  const save = () => {
     const hints = [];
 
     if (launchers.some(({ app }) => app.trim() === '')) {
