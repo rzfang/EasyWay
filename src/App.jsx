@@ -6,13 +6,11 @@ import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
+import Launcher from './Launcher';
 import NumLock from './NumLock';
-import useRcStore from './stores/rc.store.ts';
 
 function App () {
   const [ tab, setTab ] = useState('');
-  const rcConfig = useRcStore(state => state.config);
-  const saveRc = useRcStore(state => state.save);
 
   const switchTab = (event) => {
     setTab(event.currentTarget.value);
@@ -25,13 +23,15 @@ function App () {
           <button disabled={tab === 'numlock'} value="numlock" onClick={switchTab}>NumLock on/off</button>
           <button disabled={tab === 'hotkeys'} value="hotkeys" onClick={switchTab}>Hotkeys</button>
           <button disabled={tab === 'autostart'} value="autostart" onClick={switchTab}>Autostart</button>
+          <button disabled={tab === 'launcher'} value="launcher" onClick={switchTab}>Launchers</button>
         </nav>
       </header>
       <main>
         {
           tab === 'numlock' && (<NumLock />) ||
           tab === 'hotkeys' && (<KeyBind />) ||
-          tab === 'autostart' && (<AutoStart />)
+          tab === 'autostart' && (<AutoStart />) ||
+          tab === 'launcher' && (<Launcher />)
         }
       </main>
     </div>

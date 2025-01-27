@@ -42,7 +42,7 @@ function Command ({ index }: CommandProps_I): ReactNode {
   return (
     <tr className="Command">
       <td><input type="text" defaultValue={command} onChange={commandUpdate} /></td>
-      <td><button onClick={commandDelete}>Delete</button></td>
+      <td><button onClick={commandDelete}>❌</button></td>
     </tr>
   );
 }

@@ -86,7 +86,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
         <input type="text" onChange={() => {}} onKeyUp={changeKey} placeholder={item['@_key']} value="" />
       </td>
       <td><input type="text" defaultValue={item.action['@_command']} onChange={changeCommand} /></td>
-      <td><button onClick={() => deleteBind(index)}>Delete</button></td>
+      <td><button onClick={() => deleteBind(index)}>❌</button></td>
     </tr>
   );
 }
@@ -140,7 +140,7 @@ function KeyBind (): ReactNode {
           {keybinds.map((item, index) => (<OneBind key={`${item['@_key']}-${index}`} index={index} item={item} />))}
         </tbody>
       </table>
-      <button onClick={addBind}>Add</button>
+      <button onClick={addBind}>➕</button>
       <button onClick={save}>Save</button>
     </div>
   );

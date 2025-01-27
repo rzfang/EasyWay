@@ -7,6 +7,7 @@
   ],
   "permissions": [
     "core:default",
+    "fs:allow-read-dir",
     "fs:allow-read-file",
     "fs:allow-write-text-file",
     "fs:default",
@@ -14,7 +15,10 @@
     {
       "identifier": "fs:scope",
       "allow": [
-        "$HOME/.config/labwc/*"
+        "$HOME/.config/labwc/*",
+        "$HOME/.config/wf-panel-pi.ini",
+        "$HOME/.local/share/applications",
+        "/usr/share/applications"
       ]
     },
     {
