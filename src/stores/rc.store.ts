@@ -58,23 +58,6 @@ async function init () {
 
 const config = await init();
 
-// const useStore = create(set => {
-//   return {
-//     config,
-//     toggleNumLock: () => {
-//       set(state => {
-//         return {
-//           config: {
-//             keyboard: {
-//               numlock: state.config.keyboard.numlock === 'on' ? 'off' : 'on'
-//             },
-//           },
-//         };
-//       });
-//     },
-//   };
-// });
-
 interface Store_I {
   addBind: () => void;
   config: {

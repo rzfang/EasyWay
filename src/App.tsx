@@ -1,8 +1,6 @@
 import "./App.css";
 
-import { BaseDirectory, exists, readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
-import { useEffect, useState } from "react";
-import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
+import { SyntheticEvent, useState } from "react";
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
@@ -12,7 +10,7 @@ import NumLock from './NumLock';
 function App () {
   const [ tab, setTab ] = useState('');
 
-  const switchTab = (event) => {
+  const switchTab = (event: SyntheticEvent<HTMLButtonElement>) => {
     setTab(event.currentTarget.value);
   };
 

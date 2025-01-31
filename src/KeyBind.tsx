@@ -11,6 +11,7 @@ interface Item_I {
 
 interface OneBindProps_I {
   index: number;
+  item: Item_I;
 }
 
 const modifierKeyMap = [ 'A', 'C', 'S', 'W' ];
