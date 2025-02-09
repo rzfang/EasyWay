@@ -1,5 +1,7 @@
 import { KeyboardEvent, ReactNode, SyntheticEvent } from 'react';
 
+import Datalist from './Datalist';
+import useGuiAppsStore from './stores/gui-apps.store.ts';
 import useRcStore from './stores/rc.store.ts';
 
 interface Item_I {
@@ -86,7 +88,9 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
         </label><br />
         <input type="text" onChange={() => {}} onKeyUp={changeKey} placeholder={item['@_key']} value="" />
       </td>
-      <td><input type="text" defaultValue={item.action['@_command']} onChange={changeCommand} /></td>
+      <td>
+        <input type="text" list="gui-apps-datalist" defaultValue={item.action['@_command']} onChange={changeCommand} />
+      </td>
       <td><button onClick={() => deleteBind(index)}>❌</button></td>
     </tr>
   );
@@ -94,6 +98,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
 
 function KeyBind (): ReactNode {
   const addBind = useRcStore(state => state.addBind);
+  const apps = useGuiAppsStore(state => state.apps);
   const keybinds = useRcStore(state => state.config.keyboard.keybind);
   const saveRc = useRcStore(state => state.save);
 
@@ -128,6 +133,7 @@ function KeyBind (): ReactNode {
 
   return (
     <div className="KeyBind">
+      <Datalist id="gui-apps-datalist" values={apps} />
       <table>
         <thead>
           <tr>

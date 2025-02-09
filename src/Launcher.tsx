@@ -1,11 +1,12 @@
 import { ReactNode, SyntheticEvent } from 'react';
 
-// import useGuiAppsStore from './stores/gui-apps.store.ts';
+import Datalist from './Datalist';
+import useGuiAppsStore from './stores/gui-apps.store.ts';
 import useWfPanelPiStore from './stores/wf-panel-pi.store.ts';
 
 function Launcher (): ReactNode {
   const addLauncher = useWfPanelPiStore(state => state.addLauncher);
-  // const apps = useGuiAppsStore(state => state.apps);
+  const apps = useGuiAppsStore(state => state.apps);
   const changeLaucherOrder = useWfPanelPiStore(state => state.changeLaucherOrder);
   const launchers = useWfPanelPiStore(state => state.launchers);
   const removeLauncher = useWfPanelPiStore(state => state.removeLauncher);
@@ -59,6 +60,7 @@ function Launcher (): ReactNode {
 
   return (
     <div className="Launcher">
+      <Datalist id="gui-apps-datalist" values={apps} />
       <table>
         <thead>
           <tr>
@@ -69,7 +71,7 @@ function Launcher (): ReactNode {
         <tbody>
           {launchers.map(({ app, id }, index) => (
             <tr key={id} data-index={index}>
-              <td><input type="text" defaultValue={app} onChange={update} /></td>
+              <td><input type="text" defaultValue={app} list="gui-apps-datalist" onChange={update}/></td>
               <td>
                 <button onClick={changeOrder} value="-1">⬆️</button>
                 <button onClick={changeOrder} value="1">⬇️</button>
