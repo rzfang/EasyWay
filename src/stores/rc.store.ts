@@ -5,8 +5,12 @@ import { immer } from 'zustand/middleware/immer';
 import { XMLParser, XMLBuilder } from 'fast-xml-parser';
 
 async function init () {
-  const existing = await exists('.config/labwc/rc.xml', { baseDir: BaseDirectory.Home });
+  const existing = await exists('labwc/rc.xml', { baseDir: BaseDirectory.Config });
   const defaultConfig = {
+    desktops: {
+      '@_number': 1,
+      popupTime: 1000,
+    },
     keyboard: {
       keybind: [],
       numlock: 'off',
@@ -19,7 +23,7 @@ async function init () {
     return defaultConfig;
   }
 
-  const text = await readTextFile('.config/labwc/rc.xml', { baseDir: BaseDirectory.Home });
+  const text = await readTextFile('labwc/rc.xml', { baseDir: BaseDirectory.Config });
 
   if (!text) {
     console.log('empty rc.xml!');
@@ -37,6 +41,16 @@ async function init () {
     console.log('weird rc.xml?');
 
     return defaultConfig;
+  }
+
+  if (!rcConfig.desktops) {
+    rcConfig.desktops = defaultConfig.desktops;
+  }
+
+  if (!rcConfig.desktops['@_number']) {
+    rcConfig.desktops['@_number'] = 1;
+  } else {
+    rcConfig.desktops['@_number'] = parseInt(rcConfig.desktops['@_number'], 10);
   }
 
   if (!rcConfig.keyboard) {
@@ -61,6 +75,10 @@ const config = await init();
 interface Store_I {
   addBind: () => void;
   config: {
+    desktops: {
+      '@_number': number;
+      popupTime: number;
+    };
     keyboard: {
       keybind: {
         '@_key': string;
@@ -77,6 +95,7 @@ interface Store_I {
   toggleNumLock: () => void;
   updateBindCommand: (index: number, command: string) => void;
   updateBindKey: (index: number, bind: string) => void;
+  updateWorkspaceNumber: (number: number) => void;
 }
 
 const useStore = create<Store_I>()(immer((set, get) => {
@@ -103,6 +122,9 @@ const useStore = create<Store_I>()(immer((set, get) => {
     updateBindCommand: (index, command) => set(state => {
       state.config.keyboard.keybind[index].action['@_command'] = command;
     }),
+    updateWorkspaceNumber: (number) => set(state => {
+      state.config.desktops['@_number'] = number;
+    }),
     save: () => {
       const builder = new XMLBuilder({ format: true, ignoreAttributes: false });
       const { config } = get();
@@ -110,7 +132,7 @@ const useStore = create<Store_I>()(immer((set, get) => {
       const xmlContent = '<?xml version="1.0"?>\n' +
         builder.build({ labwc_config: config }).replace(/><\/action>/g, ' />');
 
-      writeTextFile('.config/labwc/rc.xml', xmlContent, { baseDir: BaseDirectory.Home })
+      writeTextFile('labwc/rc.xml', xmlContent, { baseDir: BaseDirectory.Config })
         .then(() => {
           const cmd = Command.create('labwc-config-reload', [ '-r' ]);
 

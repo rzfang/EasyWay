@@ -6,6 +6,7 @@ import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
 import Launcher from './Launcher';
 import NumLock from './NumLock';
+import Workspace from './Workspace';
 
 function App () {
   const [ tab, setTab ] = useState('');
@@ -22,6 +23,7 @@ function App () {
           <button disabled={tab === 'hotkeys'} value="hotkeys" onClick={switchTab}>Hotkeys</button>
           <button disabled={tab === 'autostart'} value="autostart" onClick={switchTab}>Autostart</button>
           <button disabled={tab === 'launcher'} value="launcher" onClick={switchTab}>Launchers</button>
+          <button disabled={tab === 'workspace'} value="workspace" onClick={switchTab}>Workspaces</button>
         </nav>
       </header>
       <main>
@@ -29,7 +31,8 @@ function App () {
           tab === 'numlock' && (<NumLock />) ||
           tab === 'hotkeys' && (<KeyBind />) ||
           tab === 'autostart' && (<AutoStart />) ||
-          tab === 'launcher' && (<Launcher />)
+          tab === 'launcher' && (<Launcher />) ||
+          tab === 'workspace' && (<Workspace />)
         }
       </main>
     </div>
