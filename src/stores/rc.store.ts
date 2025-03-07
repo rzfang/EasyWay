@@ -83,8 +83,9 @@ interface Store_I {
       keybind: {
         '@_key': string;
         action: {
-          '@_command': string;
-          '@_name': string;
+          '@_command'?: string;
+          '@_name': 'Execute' | 'GoToDesktop';
+          '@_to'?: 'left' | 'right';
         };
       }[];
       numlock: 'on' | 'off';
@@ -95,6 +96,7 @@ interface Store_I {
   toggleNumLock: () => void;
   updateBindCommand: (index: number, command: string) => void;
   updateBindKey: (index: number, bind: string) => void;
+  updateBindType: (index: number, type: 'Execute' | 'GoToDesktop') => void;
   updateWorkspaceNumber: (number: number) => void;
 }
 
@@ -121,6 +123,11 @@ const useStore = create<Store_I>()(immer((set, get) => {
     }),
     updateBindCommand: (index, command) => set(state => {
       state.config.keyboard.keybind[index].action['@_command'] = command;
+    }),
+    updateBindType: (index, type) => set(state => {
+      state.config.keyboard.keybind[index].action = type === 'Execute' ?
+        { '@_command': '', '@_name': 'Execute' } :
+        { '@_name': 'GoToDesktop', '@_to': 'left' };
     }),
     updateWorkspaceNumber: (number) => set(state => {
       state.config.desktops['@_number'] = number;

@@ -23,6 +23,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
   const item: Item_I = useRcStore(state => state.config.keyboard.keybind[index]);
   const updateBindCommand = useRcStore(state => state.updateBindCommand);
   const updateBindKey = useRcStore(state => state.updateBindKey);
+  const updateBindType = useRcStore(state => state.updateBindType);
 
   const key = item['@_key'].split('-').find(key => (key !== '' && !modifierKeyMap.includes(key)));
   const modifiers = item['@_key'].split('-').filter(key => modifierKeyMap.includes(key));
@@ -53,6 +54,10 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
     }
 
     updateBindKey(index, modifiers.join('-') + '-' + key);
+  };
+
+  const changeType = (event: SyntheticEvent<HTMLSelectElement>) => {
+    updateBindType(index, event.currentTarget.value);
   };
 
   const changeCommand = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -89,7 +94,23 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
         <input type="text" onChange={() => {}} onKeyUp={changeKey} placeholder={item['@_key']} value="" />
       </td>
       <td>
-        <input type="text" list="gui-apps-datalist" defaultValue={item.action['@_command']} onChange={changeCommand} />
+        <select defaultValue={item.action['@_name']} onChange={changeType}>
+          <option value="Execute">Execute</option>
+          <option value="GoToDesktop">GoToDesktop</option>
+        </select>
+        {item.action['@_name'] === 'Execute' ? (
+          <input
+            defaultValue={item.action['@_command']}
+            list="gui-apps-datalist"
+            onChange={changeCommand}
+            type="text"
+          />
+        ) : (
+          <select defaultValue={item.action['@_to']}>
+            <option value="left">left</option>
+            <option value="right">right</option>
+          </select>
+        )}
       </td>
       <td><button onClick={() => deleteBind(index)}>❌</button></td>
     </tr>
@@ -98,7 +119,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
 
 function KeyBind (): ReactNode {
   const addBind = useRcStore(state => state.addBind);
-  const apps = useGuiAppsStore(state => state.apps);
+  const apps = useGuiAppsStore(state => state.apps).map(app => app.command);
   const keybinds = useRcStore(state => state.config.keyboard.keybind);
   const saveRc = useRcStore(state => state.save);
 
@@ -118,6 +139,7 @@ function KeyBind (): ReactNode {
     }
 
     if (keybinds
+      .filter(({ action }) => !!action['@_command'])
       .map(({ action }) => action['@_command'])
       .some((command, index, commands) => commands.indexOf(command) !== index)
     ) {
@@ -133,12 +155,12 @@ function KeyBind (): ReactNode {
 
   return (
     <div className="KeyBind">
-      <Datalist id="gui-apps-datalist" values={apps} />
+      <Datalist id="gui-apps-datalist" values={apps.filter(app => app !== '')} />
       <table>
         <thead>
           <tr>
             <th>Key</th>
-            <th>Command</th>
+            <th>Action</th>
             <th></th>
           </tr>
         </thead>
