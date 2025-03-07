@@ -60,7 +60,7 @@ function Launcher (): ReactNode {
 
   return (
     <div className="Launcher">
-      <Datalist id="gui-apps-datalist" values={apps} />
+      <Datalist id="gui-apps-datalist" values={apps.map(app => app.file)} />
       <table>
         <thead>
           <tr>
