@@ -38,7 +38,7 @@ const items = await init();
 
 interface Store_I {
   addOne: () => void;
-  changeOrder: (index: number, order: 1 | -1) => void;
+  changeOrder: (index: number, order: number) => void;
   deleteOne: (index: number) => void;
   items: Command_I[];
   save: () => void;

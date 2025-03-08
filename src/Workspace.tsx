@@ -8,7 +8,7 @@ function Workspace (): ReactNode {
   const updateWorkspaceNumber = useRcStore(state => state.updateWorkspaceNumber);
 
   const changeNumber = (event: SyntheticEvent<HTMLInputElement>) => {
-    updateWorkspaceNumber(event.currentTarget.value);
+    updateWorkspaceNumber(parseInt(event.currentTarget.value, 10));
   };
 
   const save = () => {

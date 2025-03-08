@@ -4,23 +4,15 @@ import Datalist from './Datalist';
 import useGuiAppsStore from './stores/gui-apps.store.ts';
 import useRcStore from './stores/rc.store.ts';
 
-interface Item_I {
-  '@_key': string;
-  action: {
-    '@_command': string;
-  };
-}
-
 interface OneBindProps_I {
   index: number;
-  item: Item_I;
 }
 
 const modifierKeyMap = [ 'A', 'C', 'S', 'W' ];
 
 function OneBind ({ index }: OneBindProps_I): ReactNode {
   const deleteBind = useRcStore(state => state.deleteBind);
-  const item: Item_I = useRcStore(state => state.config.keyboard.keybind[index]);
+  const item = useRcStore(state => state.config.keyboard.keybind[index]);
   const updateBindCommand = useRcStore(state => state.updateBindCommand);
   const updateBindKey = useRcStore(state => state.updateBindKey);
   const updateBindType = useRcStore(state => state.updateBindType);
@@ -165,7 +157,7 @@ function KeyBind (): ReactNode {
           </tr>
         </thead>
         <tbody>
-          {keybinds.map((item, index) => (<OneBind key={`${item['@_key']}-${index}`} index={index} item={item} />))}
+          {keybinds.map((item, index) => (<OneBind key={`${item['@_key']}-${index}`} index={index} />))}
         </tbody>
       </table>
       <button onClick={addBind}>➕</button>

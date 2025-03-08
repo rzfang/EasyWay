@@ -40,7 +40,7 @@ interface Launcher_I {
 
 interface Store_I {
   addLauncher: () => void;
-  changeLaucherOrder: (index: number, order: 1 | -1) => void;
+  changeLaucherOrder: (index: number, order: number) => void;
   launchers: Launcher_I[];
   removeLauncher: (index: number) => void;
   saveLaunchers: () => void;

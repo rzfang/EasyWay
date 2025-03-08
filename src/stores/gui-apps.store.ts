@@ -1,5 +1,6 @@
-import * as path from '@tauri-apps/api/path';
-import { BaseDirectory, readDir, readTextFile } from '@tauri-apps/plugin-fs';
+// import * as path from '@tauri-apps/api/path';
+// import { BaseDirectory, readDir, readTextFile } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, readDir } from '@tauri-apps/plugin-fs';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 

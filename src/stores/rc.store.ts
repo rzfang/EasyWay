@@ -96,7 +96,7 @@ interface Store_I {
   toggleNumLock: () => void;
   updateBindCommand: (index: number, command: string) => void;
   updateBindKey: (index: number, bind: string) => void;
-  updateBindType: (index: number, type: 'Execute' | 'GoToDesktop') => void;
+  updateBindType: (index: number, type: string) => void;
   updateWorkspaceNumber: (number: number) => void;
 }
 
