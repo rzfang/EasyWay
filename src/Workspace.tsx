@@ -33,6 +33,7 @@ function Workspace (): ReactNode {
     <div className="Workspace">
       <div>
         <input type="number" max="10" min="1" defaultValue={number} onChange={changeNumber} />
+        <span>Hint: go to "Hotkeys" to set up the key bind and workspace switching.</span>
       </div>
       <div>
         <button onClick={save}>Save</button>
