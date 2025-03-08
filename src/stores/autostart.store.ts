@@ -38,6 +38,7 @@ const items = await init();
 
 interface Store_I {
   addOne: () => void;
+  changeOrder: (index: number, order: 1 | -1) => void;
   deleteOne: (index: number) => void;
   items: Command_I[];
   save: () => void;
@@ -49,6 +50,16 @@ const useStore = create<Store_I>()(immer((set, get) => {
     items,
     addOne: () => set(state => {
       state.items.push({ command: 'echo "a_new_command."', id: Date.now() });
+    }),
+    changeOrder: (index, order) => set(state => {
+      if (((order === -1) && (index === 0)) || ((order === 1) && (index >= (state.items.length - 1)))) {
+        return;
+      }
+
+      const t = state.items[index];
+
+      state.items[index] = state.items[index + order];
+      state.items[index + order] = t;
     }),
     deleteOne: index => set(state => {
       state.items.splice(index, 1);

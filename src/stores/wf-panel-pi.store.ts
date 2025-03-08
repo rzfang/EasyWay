@@ -40,7 +40,7 @@ interface Launcher_I {
 
 interface Store_I {
   addLauncher: () => void;
-  changeLaucherOrder: (index: number, order: number) => void;
+  changeLaucherOrder: (index: number, order: 1 | -1) => void;
   launchers: Launcher_I[];
   removeLauncher: (index: number) => void;
   saveLaunchers: () => void;
@@ -70,11 +70,8 @@ const useStore = create<Store_I>()(immer((set, get) => {
     addLauncher: () => set(state => {
       state.launchers.push({ app: '', id: Date.now() } as Launcher_I);
     }),
-    /**
-     * @order: 1 | -1.
-    */
     changeLaucherOrder: (index, order) => set(state => {
-      if ((order === -1 && index === 0) || ((order === 1) && (index === (state.launchers.length - 1)))) {
+      if ((order === -1 && index === 0) || ((order === 1) && (index >= (state.launchers.length - 1)))) {
         return;
       }
 

@@ -7,9 +7,16 @@ interface CommandProps_I {
 }
 
 function Command ({ index }: CommandProps_I): ReactNode {
+  const changeOrder = useAsStore(state => state.changeOrder);
   const command = useAsStore(state => state.items[index].command);
   const deleteOne = useAsStore(state => state.deleteOne);
   const updateOne = useAsStore(state => state.updateOne);
+
+  const commandChangeOrder = (event: SyntheticEvent<HTMLButtonElement>) => {
+    const order = parseInt(event.currentTarget.value, 10);
+
+    changeOrder(index, order);
+  };
 
   const commandUpdate = (event: SyntheticEvent<HTMLInputElement>) => {
     const command = event.currentTarget.value.trim();
@@ -28,7 +35,11 @@ function Command ({ index }: CommandProps_I): ReactNode {
   return (
     <tr className="Command">
       <td><input type="text" defaultValue={command} onChange={commandUpdate} /></td>
-      <td><button onClick={commandDelete}>❌</button></td>
+      <td>
+        <button onClick={commandChangeOrder} value="-1">⬆️</button>
+        <button onClick={commandChangeOrder} value="1">⬇️</button>
+        <button onClick={commandDelete}>❌</button>
+      </td>
     </tr>
   );
 }
