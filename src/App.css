@@ -2,6 +2,7 @@
   --color-gray-8: #808080;
   --color-gray-c: #c0c0c0;
   --color-gray-f: #f0f0f0;
+  --color-white-1: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -107,5 +108,12 @@ table {
       min-width: 300px;
       width: 50vw;
     }
+  }
+}
+
+.TabBox {
+  >.label-box {
+    position: sticky;
+    top: 0;
   }
 }

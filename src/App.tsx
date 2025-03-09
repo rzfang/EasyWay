@@ -1,40 +1,27 @@
-import "./App.css";
+import './App.css';
+import './components.css';
 
-import { SyntheticEvent, useState } from "react";
+import { ReactNode } from "react";
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
 import Launcher from './Launcher';
 import NumLock from './NumLock';
+import TabBox from './TabBox';
 import Workspace from './Workspace';
 
-function App () {
-  const [ tab, setTab ] = useState('');
-
-  const switchTab = (event: SyntheticEvent<HTMLButtonElement>) => {
-    setTab(event.currentTarget.value);
-  };
-
+function App (): ReactNode {
   return (
     <div className="App">
-      <header>
-        <nav>
-          <button disabled={tab === 'numlock'} value="numlock" onClick={switchTab}>NumLock on/off</button>
-          <button disabled={tab === 'hotkeys'} value="hotkeys" onClick={switchTab}>Hotkeys</button>
-          <button disabled={tab === 'autostart'} value="autostart" onClick={switchTab}>Autostart</button>
-          <button disabled={tab === 'launcher'} value="launcher" onClick={switchTab}>Launchers</button>
-          <button disabled={tab === 'workspace'} value="workspace" onClick={switchTab}>Workspaces</button>
-        </nav>
-      </header>
-      <main>
-        {
-          tab === 'numlock' && (<NumLock />) ||
-          tab === 'hotkeys' && (<KeyBind />) ||
-          tab === 'autostart' && (<AutoStart />) ||
-          tab === 'launcher' && (<Launcher />) ||
-          tab === 'workspace' && (<Workspace />)
-        }
-      </main>
+      <TabBox
+        tabs={[
+          { content: (<NumLock />), label: 'NumLock on/off' },
+          { content: (<KeyBind />), label: 'Hotkeys' },
+          { content: (<AutoStart />), label: 'Autostart' },
+          { content: (<Launcher />), label: 'Launchers' },
+          { content: (<Workspace />), label: 'Workspaces' },
+        ]}
+      />
     </div>
   );
 }
