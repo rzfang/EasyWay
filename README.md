@@ -6,6 +6,7 @@ a Raspberry Pi GUI app to help editing configs. For life easier.
 - [React](https://react.dev/)
 - [Tauri V2](https://v2.tauri.app/)
 - [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [ESLint](https://eslint.org/) & [ESLint Stylistic](https://eslint.style/)
 
 ## Features
 - Keyboard
