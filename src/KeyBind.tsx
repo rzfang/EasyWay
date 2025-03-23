@@ -15,6 +15,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
   const item = useRcStore(state => state.config.keyboard.keybind[index]);
   const updateBindCommand = useRcStore(state => state.updateBindCommand);
   const updateBindKey = useRcStore(state => state.updateBindKey);
+  const updateBindTo = useRcStore(state => state.updateBindTo);
   const updateBindType = useRcStore(state => state.updateBindType);
 
   const key = item['@_key'].split('-').find(key => (key !== '' && !modifierKeyMap.includes(key)));
@@ -54,6 +55,10 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
 
   const changeCommand = (event: SyntheticEvent<HTMLInputElement>) => {
     updateBindCommand(index, event.currentTarget.value);
+  };
+
+  const changeTo = (event: SyntheticEvent<HTMLSelectElement>) => {
+    updateBindTo(index, event.currentTarget.value);
   };
 
   return (
@@ -98,7 +103,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
             type="text"
           />
         ) : (
-          <select defaultValue={item.action['@_to']}>
+          <select defaultValue={item.action['@_to']} onChange={changeTo}>
             <option value="left">left</option>
             <option value="right">right</option>
           </select>
@@ -160,8 +165,10 @@ function KeyBind (): ReactNode {
           {keybinds.map((item, index) => (<OneBind key={`${item['@_key']}-${index}`} index={index} />))}
         </tbody>
       </table>
-      <button onClick={addBind}>➕</button>
-      <button onClick={save}>Save</button>
+      <div>
+        <button onClick={addBind}>➕</button>
+        <button onClick={save}>Save</button>
+      </div>
     </div>
   );
 }

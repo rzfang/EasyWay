@@ -97,6 +97,7 @@ interface Store_I {
   updateBindCommand: (index: number, command: string) => void;
   updateBindKey: (index: number, bind: string) => void;
   updateBindType: (index: number, type: string) => void;
+  updateBindTo: (index: number, to: 'left' | 'right') => void;
   updateWorkspaceNumber: (number: number) => void;
 }
 
@@ -128,6 +129,9 @@ const useStore = create<Store_I>()(immer((set, get) => {
       state.config.keyboard.keybind[index].action = type === 'Execute' ?
         { '@_command': '', '@_name': 'Execute' } :
         { '@_name': 'GoToDesktop', '@_to': 'left' };
+    }),
+    updateBindTo: (index, to) => set(state => {
+      state.config.keyboard.keybind[index].action['@_to'] = to;
     }),
     updateWorkspaceNumber: (number) => set(state => {
       state.config.desktops['@_number'] = number;
