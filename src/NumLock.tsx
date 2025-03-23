@@ -20,8 +20,10 @@ function NumLock (): ReactNode {
       <label>
         Off
         <input name="on-off" checked={!isNumlock} onChange={toggleNumLock} type="radio" value="off" />
-      </label><br/>
-      <button onClick={save}>Save</button>
+      </label>
+      <div>
+        <button onClick={save}>Save</button>
+      </div>
     </div>
   );
 }

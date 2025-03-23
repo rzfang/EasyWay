@@ -20,6 +20,7 @@ function App (): ReactNode {
           { content: (<AutoStart />), label: 'Autostart' },
           { content: (<Launcher />), label: 'Launchers' },
           { content: (<Workspace />), label: 'Workspaces' },
+          // { content: (<div></div>), label: 'About' },
         ]}
       />
     </div>

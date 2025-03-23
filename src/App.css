@@ -35,6 +35,7 @@ input[type=text] {
 }
 
 table {
+  display: inline-table;
   border: 1px solid var(--color-gray-c);
   border-spacing: 0;
   border-radius: 5px;
@@ -65,17 +66,8 @@ table {
 }
 
 .App {
-  display: grid;
-  grid-template-rows: 50px 1fr;
   box-sizing: border-box;
   padding: 5px;
-  height: 100vh;
-
-  >main {
-    >* {
-      margin-bottom: 5px;
-    }
-  }
 }
 
 .AutoStart {
@@ -87,16 +79,34 @@ table {
       width: 70vw;
     }
   }
+
+  >div:last-child {
+    margin-top: 10px;
+  }
 }
 
 .KeyBind {
-  table td {
-    padding: 10px;
+  table {
+    text-align: initial;
 
-    label {
-      display: inline-block;
-      margin-right: 5px;
+    thead {
+      position: sticky;
+      top: 38px;
+      background-color: var(--color-white-1);
     }
+
+    td {
+      padding: 10px;
+
+      label {
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  >div:last-child {
+    margin-top: 10px;
   }
 }
 
@@ -109,11 +119,32 @@ table {
       width: 50vw;
     }
   }
+
+  >div:last-child {
+    margin-top: 10px;
+  }
+}
+
+.NumLock {
+  >div:last-child {
+    margin-top: 10px;
+  }
 }
 
 .TabBox {
   >.label-box {
     position: sticky;
     top: 0;
+    background-color: var(--color-white-1);
+  }
+
+  >.content-box {
+    text-align: center;
+  }
+}
+
+.Workspace {
+  >div:last-child {
+    margin-top: 10px;
   }
 }

@@ -80,8 +80,10 @@ function AutoStart (): ReactNode {
           {items.map(({ id }, index) => (<Command key={id} index={index} />))}
         </tbody>
       </table>
-      <button onClick={commandAdd}>New command</button>
-      <button onClick={save}>Save</button>
+      <div>
+        <button onClick={commandAdd}>➕</button>
+        <button onClick={save}>Save</button>
+      </div>
     </div>
   );
 }

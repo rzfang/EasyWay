@@ -81,8 +81,10 @@ function Launcher (): ReactNode {
           ))}
         </tbody>
       </table>
-      <button onClick={addLauncher}>➕</button>
-      <button onClick={save}>Save</button>
+      <div>
+        <button onClick={addLauncher}>➕</button>
+        <button onClick={save}>Save</button>
+      </div>
     </div>
   );
 }
