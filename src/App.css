@@ -110,7 +110,7 @@ table {
   }
 }
 
-.Launcher {
+/*.Launcher {
   table td {
     padding: 10px;
 
@@ -123,7 +123,7 @@ table {
   >div:last-child {
     margin-top: 10px;
   }
-}
+}*/
 
 .NumLock {
   >div:last-child {
