@@ -58,7 +58,7 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
   };
 
   const changeTo = (event: SyntheticEvent<HTMLSelectElement>) => {
-    updateBindTo(index, event.currentTarget.value);
+    updateBindTo(index, event.currentTarget.value === 'left' ? 'left' : 'right');
   };
 
   return (
