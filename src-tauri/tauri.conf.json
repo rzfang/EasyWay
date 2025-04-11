@@ -1,7 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "easy-way",
-  "version": "0.3.1",
+  "productName": "Easy Way",
   "identifier": "com.easy-way.app",
   "build": {
     "beforeDevCommand": "npm run dev",
