@@ -1,16 +1,14 @@
 import classnames from 'classnames';
 import { ReactNode, useState } from 'react';
 
-interface Props_I {
+function TabBox ({ center = false, defaultIndex = 0, tabs }: {
   center?: boolean;
   defaultIndex?: number;
   tabs: {
     label: ReactNode;
     content: ReactNode;
   }[];
-}
-
-function TabBox ({ center = false, defaultIndex = 0, tabs }: Props_I): ReactNode {
+}): ReactNode {
   const [ tabIndex, setTabIndex ] = useState<number>(defaultIndex);
 
   return (

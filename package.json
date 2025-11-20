@@ -1,7 +1,7 @@
 {
   "name": "Easy Way",
   "private": true,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
@@ -13,19 +13,19 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-fs": "^2.0.2",
+    "@tauri-apps/plugin-fs": "^2",
     "@tauri-apps/plugin-shell": "^2",
     "classnames": "^2.5.1",
     "fast-xml-parser": "^4.5.0",
     "immer": "^10.1.1",
     "ini": "^5.0.0",
-    "pre-commit": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@fastify/pre-commit": "^2.2.1",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@tauri-apps/cli": "^2",
     "@types/ini": "^4.1.1",

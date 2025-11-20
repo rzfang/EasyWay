@@ -2,11 +2,9 @@ import { ReactNode, SyntheticEvent } from 'react';
 
 import useAsStore from './stores/autostart.store.ts';
 
-interface CommandProps_I {
+function Command ({ index }: {
   index: number;
-}
-
-function Command ({ index }: CommandProps_I): ReactNode {
+}): ReactNode {
   const changeOrder = useAsStore(state => state.changeOrder);
   const command = useAsStore(state => state.items[index].command);
   const deleteOne = useAsStore(state => state.deleteOne);
@@ -54,7 +52,7 @@ function AutoStart (): ReactNode {
   };
 
   const save = () => {
-    const hints = [];
+    const hints: string[] = [];
 
     if (items.some(({ command }) => !command)) {
       hints.push('one or many command are empty.');

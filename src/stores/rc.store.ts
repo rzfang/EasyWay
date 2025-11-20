@@ -84,7 +84,7 @@ interface Store_I {
         '@_key': string;
         action: {
           '@_command'?: string;
-          '@_name': 'Execute' | 'GoToDesktop';
+          '@_name': 'Execute' | 'GoToDesktop' | 'ToggleAlwaysOnTop';
           '@_to'?: 'left' | 'right';
         };
       }[];
@@ -126,9 +126,22 @@ const useStore = create<Store_I>()(immer((set, get) => {
       state.config.keyboard.keybind[index].action['@_command'] = command;
     }),
     updateBindType: (index, type) => set(state => {
-      state.config.keyboard.keybind[index].action = type === 'Execute' ?
-        { '@_command': '', '@_name': 'Execute' } :
-        { '@_name': 'GoToDesktop', '@_to': 'left' };
+      switch (type) {
+        case 'Execute':
+          state.config.keyboard.keybind[index].action = { '@_command': '', '@_name': 'Execute' };
+
+          break;
+
+        case 'ToggleAlwaysOnTop':
+          state.config.keyboard.keybind[index].action = { '@_name': 'ToggleAlwaysOnTop' };
+
+          break;
+
+        case 'GoToDesktop':
+          state.config.keyboard.keybind[index].action = { '@_name': 'GoToDesktop', '@_to': 'left' };
+
+          break;
+      }
     }),
     updateBindTo: (index, to) => set(state => {
       state.config.keyboard.keybind[index].action['@_to'] = to;

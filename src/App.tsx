@@ -1,6 +1,7 @@
 import './App.css';
 import './components.css';
 
+import { getCurrentWindow, LogicalSize } from '@tauri-apps/api/window';
 import { ReactNode } from "react";
 
 import AutoStart from './AutoStart';
@@ -11,6 +12,9 @@ import TabBox from './TabBox';
 import Workspace from './Workspace';
 
 function App (): ReactNode {
+  // To Do: this is a work around. refer to https://github.com/tauri-apps/tauri/issues/9289.
+  setTimeout(() => getCurrentWindow().setSize(new LogicalSize(801, 600)), 10);
+
   return (
     <div className="App">
       <TabBox
