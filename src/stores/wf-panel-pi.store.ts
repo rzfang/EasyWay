@@ -40,11 +40,11 @@ interface Launcher_I {
 
 interface Store_I {
   addLauncher: () => void;
-  changeLaucherOrder: (index: number, order: number) => void;
+  changeLaucherOrder: (_index: number, _order: number) => void;
   launchers: Launcher_I[];
-  removeLauncher: (index: number) => void;
+  removeLauncher: (_index: number) => void;
   saveLaunchers: () => void;
-  updateLauncher: (index: number, value: string) => void;
+  updateLauncher: (_index: number, _value: string) => void;
   config: {
     [key: string]: string;
   };

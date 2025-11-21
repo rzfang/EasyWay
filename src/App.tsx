@@ -2,7 +2,7 @@ import './App.css';
 import './components.css';
 
 import { getCurrentWindow, LogicalSize } from '@tauri-apps/api/window';
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';

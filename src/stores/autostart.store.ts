@@ -38,11 +38,11 @@ const items = await init();
 
 interface Store_I {
   addOne: () => void;
-  changeOrder: (index: number, order: number) => void;
-  deleteOne: (index: number) => void;
+  changeOrder: (_index: number, _order: number) => void;
+  deleteOne: (_index: number) => void;
   items: Command_I[];
   save: () => void;
-  updateOne: (index: number, command: string) => void;
+  updateOne: (_index: number, _command: string) => void;
 };
 
 const useStore = create<Store_I>()(immer((set, get) => {

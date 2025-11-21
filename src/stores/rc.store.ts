@@ -91,14 +91,14 @@ interface Store_I {
       numlock: 'on' | 'off';
     };
   };
-  deleteBind: (index: number) => void;
+  deleteBind: (_index: number) => void;
   save: () => void;
   toggleNumLock: () => void;
-  updateBindCommand: (index: number, command: string) => void;
-  updateBindKey: (index: number, bind: string) => void;
-  updateBindType: (index: number, type: string) => void;
-  updateBindTo: (index: number, to: 'left' | 'right') => void;
-  updateWorkspaceNumber: (number: number) => void;
+  updateBindCommand: (_index: number, _command: string) => void;
+  updateBindKey: (_index: number, _bind: string) => void;
+  updateBindType: (_index: number, _type: string) => void;
+  updateBindTo: (_index: number, _to: 'left' | 'right') => void;
+  updateWorkspaceNumber: (_number: number) => void;
 }
 
 const useStore = create<Store_I>()(immer((set, get) => {
@@ -170,7 +170,7 @@ const useStore = create<Store_I>()(immer((set, get) => {
           console.error(error);
           alert('Oops, something wrong!');
         });
-    }
+    },
   };
 }));
 

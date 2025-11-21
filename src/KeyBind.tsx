@@ -63,11 +63,23 @@ function OneBind ({ index }: {
     <tr className="OneBind">
       <td>
         <label>
-          <input checked={modifiers.includes('A')} name={`key0-${index}`} onChange={changeModifiers} type="checkbox" value="A" />
+          <input
+            checked={modifiers.includes('A')}
+            name={`key0-${index}`}
+            onChange={changeModifiers}
+            type="checkbox"
+            value="A"
+          />
           <span>Alt</span>
         </label>
         <label>
-          <input checked={modifiers.includes('C')} name={`key0-${index}`} onChange={changeModifiers} type="checkbox" value="C" />
+          <input
+            checked={modifiers.includes('C')}
+            name={`key0-${index}`}
+            onChange={changeModifiers}
+            type="checkbox"
+            value="C"
+          />
           <span>Ctrl</span>
         </label>
         {/*<label>
@@ -79,11 +91,23 @@ function OneBind ({ index }: {
           <span>Meta</span>
         </label>*/}
         <label>
-          <input checked={modifiers.includes('S')} name={`key0-${index}`} onChange={changeModifiers} type="checkbox" value="S" />
+          <input
+            checked={modifiers.includes('S')}
+            name={`key0-${index}`}
+            onChange={changeModifiers}
+            type="checkbox"
+            value="S"
+          />
           <span>Shift</span>
         </label>
         <label>
-          <input checked={modifiers.includes('W')} name={`key0-${index}`} onChange={changeModifiers} type="checkbox" value="W" />
+          <input
+            checked={modifiers.includes('W')}
+            name={`key0-${index}`}
+            onChange={changeModifiers}
+            type="checkbox"
+            value="W"
+          />
           <span>Super</span>
         </label><br />
         <input type="text" onChange={() => {}} onKeyUp={changeKey} placeholder={item['@_key']} value="" />
