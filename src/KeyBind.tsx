@@ -4,13 +4,11 @@ import Datalist from './Datalist';
 import useGuiAppsStore from './stores/gui-apps.store.ts';
 import useRcStore from './stores/rc.store.ts';
 
-interface OneBindProps_I {
-  index: number;
-}
-
 const modifierKeyMap = [ 'A', 'C', 'S', 'W' ];
 
-function OneBind ({ index }: OneBindProps_I): ReactNode {
+function OneBind ({ index }: {
+  index: number;
+}): ReactNode {
   const deleteBind = useRcStore(state => state.deleteBind);
   const item = useRcStore(state => state.config.keyboard.keybind[index]);
   const updateBindCommand = useRcStore(state => state.updateBindCommand);
@@ -94,15 +92,18 @@ function OneBind ({ index }: OneBindProps_I): ReactNode {
         <select defaultValue={item.action['@_name']} onChange={changeType}>
           <option value="Execute">Execute</option>
           <option value="GoToDesktop">GoToDesktop</option>
+          <option value="ToggleAlwaysOnTop">ToggleAlwaysOnTop</option>
         </select>
-        {item.action['@_name'] === 'Execute' ? (
+        {item.action['@_name'] === 'Execute' && (
           <input
             defaultValue={item.action['@_command']}
             list="gui-apps-datalist"
             onChange={changeCommand}
             type="text"
           />
-        ) : (
+        ) || (item.action['@_name'] === 'ToggleAlwaysOnTop') && (
+          <></>
+        ) || (
           <select defaultValue={item.action['@_to']} onChange={changeTo}>
             <option value="left">left</option>
             <option value="right">right</option>
