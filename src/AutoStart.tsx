@@ -34,8 +34,8 @@ function Command ({ index }: {
     <tr className="Command">
       <td><input type="text" defaultValue={command} onChange={commandUpdate} /></td>
       <td>
-        <button onClick={commandChangeOrder} value="-1">⬆️</button>
-        <button onClick={commandChangeOrder} value="1">⬇️</button>
+        <button onClick={commandChangeOrder} value="-1">⬆</button>
+        <button onClick={commandChangeOrder} value="1">⬇</button>
         <button onClick={commandDelete}>❌</button>
       </td>
     </tr>
