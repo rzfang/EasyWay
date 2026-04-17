@@ -23,6 +23,11 @@ button {
   border-radius: 5px;
   color: var(--color-font);
   background-color: var(--color-gray-e);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 input[type=radio] {
@@ -33,6 +38,7 @@ input[type=radio] {
   }
 }
 
+input[type=number],
 input[type=text] {
   border-color: var(--color-gray-c);
   border-style: solid;
@@ -107,12 +113,13 @@ table {
     background-color: var(--color-gray-4);
   }
 
+  input[type=number],
   input[type=text] {
     color: var(--color-gray-e);
     background-color: var(--color-gray-4);
 
     &:disabled {
-      background-color: var(--color-gray-2);
+      background-color: var(--color-gray-8);
     }
   }
 
@@ -175,21 +182,6 @@ table {
     margin-top: 10px;
   }
 }
-
-/*.Launcher {
-  table td {
-    padding: 10px;
-
-    >input[type=text] {
-      min-width: 300px;
-      width: 50vw;
-    }
-  }
-
-  >div:last-child {
-    margin-top: 10px;
-  }
-}*/
 
 .NumLock {
   >div:last-child {

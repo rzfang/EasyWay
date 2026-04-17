@@ -6,7 +6,6 @@ import { ReactNode, useEffect } from 'react';
 
 import AutoStart from './AutoStart';
 import KeyBind from './KeyBind';
-// import Launcher from './Launcher';
 import NumLock from './NumLock';
 import Preference from './Preference';
 import TabBox from './TabBox';
@@ -29,7 +28,6 @@ function App (): ReactNode {
           { content: (<NumLock />), label: 'NumLock on/off' },
           { content: (<KeyBind />), label: 'Hotkeys' },
           { content: (<AutoStart />), label: 'Autostart' },
-          // { content: (<Launcher />), label: 'Launchers' },
           { content: (<Workspace />), label: 'Workspaces' },
           { content: (<Preference />), label: 'Preference' },
           // { content: (<div></div>), label: 'About' },

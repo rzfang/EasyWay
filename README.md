@@ -13,13 +13,11 @@ a Raspberry Pi GUI app to help editing configs. For life easier.
     - Numlock default on/off
     - Hotkeys
 - Autostart after booting.
-- ~~Launcher items.~~ New PiOS has support by mouse right click from Taskbar Menu.
 - Workspace numbers.
 
 ## Covered Config files
 - $HOME/.config/labwc/autostart
 - $HOME/.config/labwc/rc.xml
-- ~~$HOME/.config/wf-panel-pi.ini~~ New PiOS has support by mouse right click from Taskbar Menu.
 
 ## Installation
 - BE CAREFUL! Easy Way will modify [config files](#covered-config-files), please backup before you use Easy Way.

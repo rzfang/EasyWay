@@ -1,7 +1,7 @@
 {
   "name": "Easy Way",
   "private": true,
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
@@ -19,7 +19,6 @@
     "classnames": "^2.5.1",
     "fast-xml-parser": "^5",
     "immer": "^11",
-    "ini": "^5.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "zustand": "^5"
