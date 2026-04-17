@@ -1,6 +1,6 @@
 [package]
 name = "easy-way"
-version = "0.3.3"
+version = "0.3.4"
 description = "additional Raspberry Pi config tool"
 authors = ["you"]
 edition = "2021"

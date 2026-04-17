@@ -13,8 +13,8 @@
     "tauri:dev": "tauri dev"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-fs": "^2",
+    "@tauri-apps/api": "2.9.x",
+    "@tauri-apps/plugin-fs": "2.4.x",
     "@tauri-apps/plugin-shell": "^2",
     "classnames": "^2.5.1",
     "fast-xml-parser": "^5",
